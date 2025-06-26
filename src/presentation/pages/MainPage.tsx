@@ -115,7 +115,7 @@ const MainPage: React.FC = () => {
       bgcolor: theme.palette.background.default,
     }}>
       {/* Header */}
-      <AppBar position="static" sx={{ bgcolor: theme.palette.secondary.main }}>
+      <AppBar position="static" sx={{ bgcolor: theme.palette.secondary.main, mt: -1, mb: 0.5, p: -1, height: '7%' }}>
         <Toolbar>
           <Typography variant="h6">PDV - Country Party 🎉 🎉 🎉</Typography>
         </Toolbar>
@@ -126,8 +126,8 @@ const MainPage: React.FC = () => {
         display: 'flex',
         flex: 1,
         overflow: 'hidden',
-        p: 2,
-        gap: 2
+        p: 1,
+        gap: 1
       }}>
         {/* Seção de Produtos */}
         <Box sx={{
@@ -137,46 +137,49 @@ const MainPage: React.FC = () => {
           flexDirection: 'column',
           overflow: 'hidden'
         }}>
-          <Typography variant="h5" gutterBottom sx={{ color: theme.palette.text.primary }}>
+          <Typography variant="h6" gutterBottom sx={{ color: theme.palette.text.primary, mb: -1, mt: -1 }}>
            Últimos Pedidos
           </Typography>
           <Box sx={{
             display: 'flex',
             gap: 2,
-            mb: 2,
+            mb: 1,
             overflowX: 'auto'
           }}>
             {lastOrders.map((order, index) => (
               <Paper
                 key={index}
-                elevation={3}
-                sx={{
-                  p: 2,
-                  minWidth: 220,
-                  bgcolor: theme.palette.background.paper
-                }}
+                elevation={5}
+              sx={{
+                p: 0.5,
+                mb: 0.5,
+                minWidth: 180, // Reduzido (era ~360)
+                maxWidth: 200,
+                flex: '0 0 auto',
+                bgcolor: theme.palette.background.paper,
+              }}
               >
-                <Typography variant="subtitle1" gutterBottom>Cliente: {order.customerName}</Typography>
-                <Typography variant="body2">Total: {currencyFormatter.format(order.total)}</Typography>
-                <Typography variant="body2">Troco: {currencyFormatter.format(order.troco)}</Typography>
-                <Typography variant="body2">Itens: {order.itemsCount}</Typography>
+                <Typography variant="subtitle1" gutterBottom sx={{mb: -0.3 }}>Cliente: {order.customerName}</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 'bold', mb: -0.3 }}>Total: {currencyFormatter.format(order.total)}</Typography>
+                <Typography variant="body2" sx={{mb: -0.3 }}>Troco: {currencyFormatter.format(order.troco)}</Typography>
+                <Typography variant="body2" sx={{mb: -0.3 }}>Itens: {order.itemsCount}</Typography>
               </Paper>
             ))}
           </Box>
 
-          <Typography variant="h5" gutterBottom sx={{ color: theme.palette.text.primary }}>
-            Produtos
+          <Typography variant="h6" gutterBottom sx={{ color: theme.palette.text.primary, p: 0.5, mb: 0.5 }}>
+            PRODUTOS
           </Typography>
           <Box sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-            gap: 2,
+            gap: 1,
             overflowY: 'auto',
             flex: 1,
             pr: 1
           }}>
             {products.map((product) => (
-              <Paper elevation={3} sx={{ p: 2, textAlign: 'center', bgcolor: theme.palette.background.paper }} key={product.id_product}>
+              <Paper elevation={5} sx={{ p: 0.5, mb: 0.5, textAlign: 'center', bgcolor: theme.palette.background.paper }} key={product.id_product}>
                 <Typography variant="subtitle1">{product.name}</Typography>
                 <Typography variant="h6">{currencyFormatter.format(product.unit_price)}</Typography>
                 <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 1 }}>
@@ -207,8 +210,8 @@ const MainPage: React.FC = () => {
           overflow: 'hidden',
           bgcolor: theme.palette.primary.contrastText
         }}>
-          <Typography variant="h5" gutterBottom sx={{ mt: 1, px: 1, color: theme.palette.text.primary }}>
-            Carrinho
+          <Typography variant="h6" gutterBottom sx={{ mt: -0.2, px: 1, color: theme.palette.text.primary }}>
+            CARRINHO
           </Typography>
           <Box sx={{
             overflowY: 'auto',
@@ -220,7 +223,7 @@ const MainPage: React.FC = () => {
             {cartItems.map((item) => (
               <Paper
                 key={item.product.id_product}
-                elevation={2}
+                elevation={3}
                 sx={{ p: 1, mb: 1, display: 'flex', justifyContent: 'space-between' }}
               >
                 <Typography>
@@ -237,38 +240,41 @@ const MainPage: React.FC = () => {
           <Box sx={{ mt: 'auto', px: 1 }}>
             <TextField
               fullWidth
+              size="small"
               label="Identificação do Cliente (opcional)"
               variant="outlined"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5, fontSize: '0.85rem' }}
             />
             <TextField
               fullWidth
+              size="small"
               label="Desconto (R$)"
               type="number"
               variant="outlined"
               value={discountValue}
               onChange={(e) => setDiscountValue(parseFloat(e.target.value) || 0)}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5, fontSize: '0.85rem' }}
             />
             <TextField
               fullWidth
+              size="small"
               label="Valor Pago (R$)"
               type="number"
               variant="outlined"
               value={paidValue}
               onChange={(e) => setPaidValue(parseFloat(e.target.value) || 0)}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5, fontSize: '0.85rem' }}
             />
-          <Typography variant="h6" sx={{ mb: 2, color: theme.palette.text.primary }}>
-            Total: {currencyFormatter.format(calculateTotal())}
+          <Typography variant="h6" sx={{ mb: 0.5, color: theme.palette.text.primary }}>
+            TOTAL: {currencyFormatter.format(calculateTotal())}
           </Typography>
             {calculateTroco() > 0 && (
               <Typography
                 variant="h6"
                 sx={{
-                  mb: 2,
+                  mb: 1,
                   color: 'green',
                   animation: 'blinker 1s linear infinite',
                   '@keyframes blinker': {
@@ -281,7 +287,7 @@ const MainPage: React.FC = () => {
             )}
             <Button
               variant="contained"
-              sx={{ bgcolor: theme.palette.text.secondary, py: 1.5 }}
+              sx={{ bgcolor: theme.palette.text.secondary, py: 1.2 }}
               fullWidth
               onClick={handleFinalizeOrder}
               disabled={calculateTotal() < 0}
@@ -298,7 +304,9 @@ const MainPage: React.FC = () => {
         textAlign: 'center',
         bgcolor: theme.palette.warning.main
       }}>
-        <Typography variant="body2" sx={{ color: theme.palette.text.primary }}>Versão 1.0 — {new Date().toLocaleDateString()}</Typography>
+        <Typography variant="body2" sx={{ color: theme.palette.text.primary, mb: -1, mt: -0.5 }}>
+          Versão 2.0 — {new Date().toLocaleDateString()}
+        </Typography>
       </Box>
     </Box>
   );
